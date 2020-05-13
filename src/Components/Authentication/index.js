@@ -15,13 +15,13 @@ export const login = async ({ email, password }) => {
     { withCredentials: true }*/
   )
 
+  //whos responsibility should that be?
   if (await response.data.success === 1) {
-    user = response.data.user.reverse()
-    user = user[0]
+    user = response.data.user
     sessionStorage.setItem('userData', JSON.stringify(user));
   } 
-    console.log ('response.data', response.data);
-  return user
+
+  return await response.data
 }
 
 

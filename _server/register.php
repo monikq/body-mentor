@@ -8,12 +8,15 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 require 'db_connection.php';
 $post = json_decode(file_get_contents("php://input"), true);
 
-$userEmail = $post[email];
-$userPassword = $post[password];
+$user_name = $post['username'];
+$user_email = $post['email'];
+$user_password = $post['password'];
 
-if(!empty(trim($userEmail)) && !empty(trim($userPassword ))){
+
+if(!empty(trim($user_email)) && !empty(trim($user_password ))){
+	//escape characters? how does it work? $user_email = mysqli_real_escape_string($db_connection, htmlspecialchars(trim($_POST['email'])));
 	
-	$query = "SELECT * FROM `users` WHERE user_email = '$userEmail'";
+	$query = "SELECT * FROM `users` WHERE user_email = '$user_email' limit 1";
 	$data = mysqli_query($db_conn, $query);
 	
 	if(mysqli_num_rows($data) > 0){
@@ -21,15 +24,15 @@ if(!empty(trim($userEmail)) && !empty(trim($userPassword ))){
         $user_db_pass = $data['user_password'];
 		
 		// VERIFY PASSWORD
-		$check_password = password_verify($userPassword, $user_db_pass);
+		$check_password = password_verify($user_password, $user_db_pass);
 		
 		if($check_password === TRUE){
 			echo json_encode(["success"=>1,"user"=>$data]);
 		}
-		echo json_encode(["success"=>1,"msg"=>"Password is incorrect. Try again.","user"=>$data]);
+		echo json_encode(["success"=>0,"msg"=>"Password is incorrect. Try again.","user"=>$data]);
     }
     else{
-        echo json_encode(["success"=>0,"msg"=>"test - Something went wrong, please try again!","user"=>$data, "email"=>$userEmail]);
+        echo json_encode(["success"=>0,"msg"=>"This email already exist. Login user."]);
     }
 	
 } else {

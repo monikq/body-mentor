@@ -1,7 +1,5 @@
  import React, {useContext, useState, Fragment} from 'react'
-/*  import axios from 'axios'; */
  import {
-    BrowserRouter as Router,
     useHistory,
     useLocation
   } from "react-router-dom"
@@ -47,17 +45,19 @@ export default () => {
       password: 'password',
       showPassword: false,
     })
+    const [error, setError] = useState(false)
 
     const LogoutButton = () => ( <button
       onClick={() => {
           setUser(null)
-          history.push("/public") 
+          //history.push("/public") 
           }}
       >Logout</button>
       ) 
 
     const handleChange = (prop) => (event) => {
       event.preventDefault()
+      setError(false) 
       setValues({ ...values, [prop]: event.target.value });
     };
   
@@ -72,29 +72,37 @@ export default () => {
     return (
       <Fragment>
         <h1>User Profile</h1>
-        <p>You must log in to view the page at {from.pathname}</p>
-        <pre>{JSON.stringify(user, null, 2)}</pre>
-
         { user ? ( 
+          <Fragment>
+            <pre>{JSON.stringify(user, null, 2)}</pre>
             <LogoutButton />
+          </Fragment>
           ) : (
             <div>
               <h2>Login user.</h2>
                 <form 
-                  onSubmit={async (event) => {
+                  onSubmit={
+                    async (event) => {
                     event.preventDefault()
-                    //console.log("walidacja, if password and email exist jeśli nie wyświetl error")
-                    const user = await login(values)
-                    {user ? (console.log("user exist", user)) : (console.log("NO user, try again", user))}
-                    //console.log("tutaj sprawdz czy user który przyszedł istnieje i zapisz jeśli tak, albo wyślij error jeśli nie", user)
-                    setUser(user)
-                    //console.log("user!!! send him back to from.pathname (push)", user)
-                    history.replace(from)
+                    const response = await login(values)
+                    if(response.success === 0) {
+                      setError(response.msg)
+                    } 
+                    else if(response.success === 1) {
+                      //setConfirmation(response.msg)
+                      setUser(response.user)
+                      if(from.pathname !== '/')
+                        history.replace(from)
+                    } 
+                    else {
+                      console.log('error - database input is not in range of values')
+                    }
                   }}
              >
               <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
                 <InputLabel htmlFor="component-outlined">Email</InputLabel>
                 <OutlinedInput 
+                  required
                   id="component-outlined" 
                   type="email" value={values.email} 
                   onChange={handleChange('email')} 
@@ -104,6 +112,7 @@ export default () => {
               <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                 <OutlinedInput
+                  required
                   id="outlined-adornment-password"
                   type={values.showPassword ? 'text' : 'password'}
                   value={values.password}
@@ -129,11 +138,13 @@ export default () => {
                 </Button>
                 
                 </form>
+
+                { error ? (<p  style={{color: "red"}}>{error}</p>) : ''}
+                
                 <Link
                   component="button"
                   variant="body2"
                   onClick={() => {
-                    console.info("I'm a button.")
                     history.push("/register-new-user")
                   }}
                 >
@@ -144,52 +155,3 @@ export default () => {
       </Fragment>
     );
   }
-
-
-  //login coordinator
-  //login form
-  //login button
-  //login fetch
-  //login 
-  //...sign in
-
-
-      /*handleSubmit = (event) => {
-      /* const { email, password } = this.state;
-      //console.log("CODE REFACTORNING - move database connection outside - when? when you deal with registration and password check for login")
-  
-      axios.post('http://www.andysekula.com/server/login.php',
-        {
-          //user: {
-            email: email,
-            password: password
-          //}
-        }/*,
-        { withCredentials: true }*/
-      /*)
-        .then(response => {
-          console.log("response from login.php with msg:", response.data.msg);
-          if (response.data.success === 1) {
-            this.setState({
-              user: response.data.user.reverse()
-            });
-            //console.log("CHANGE USER DATA TO PROTECT PASSWORD ", this.state.user);
-            this.setState({ redirectToReferrer: true });
-            
-            //console.log("user log in and ready to rediect USE this.props.handleSuccessfulAuth(this.state.user)");
-            sessionStorage.setItem('userData', JSON.stringify(this.state.user));
-  
-            //console.log(" ---! login sessionStorage.getItem('userData') ", sessionStorage.getItem('userData'));
-  
-            this.props.handleSuccessfulAuth(this.state.user[0]);
-          }
-        })
-        .catch(error => {
-          console.log("login error ", error);
-        })
-   
-      event.preventDefault();
-      console.log("submit function ");
-    } 
-
-    )*/

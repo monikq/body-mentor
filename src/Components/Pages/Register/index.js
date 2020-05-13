@@ -70,17 +70,10 @@ export default () => {
     const handleMouseDownPassword = (event) => {
       event.preventDefault();
     };
-
-/*     const handleSubmit = (event) => {
-      console.log("submit: email:", values.email, "pass", values.password)
-      event.preventDefault();
-    }; */
-
     
-  const _renderError = () => {
-    // {if(error){<p>Error! {error}</p>}}
-    return <p>Error from error message:  {error}</p>
-  }
+/*   const _renderError = () => {
+    error ? ( <p>{error}</p>) : (<p>{confirmation}</p>)
+  } */
 
     return (
       <Fragment>
@@ -94,7 +87,8 @@ export default () => {
             <div>
               <h2>Login user.</h2>
                 <form 
-                  onSubmit={async (event) => {
+                  onSubmit={
+                    async (event) => {
                     event.preventDefault()
 
                     setError(false) 
@@ -104,13 +98,13 @@ export default () => {
                     console.log(response)
                     
                     //validation function
-                    if(response.success == 0){
+                    if(response.success === 0){
                       console.log(response.success, " and ", response.msg)
                       setError(response.msg)
                     } else {
                       setConfirmation(response.msg)
                     }
-                    setUser(user)
+                    //setUser(response.user) //let user to log in and save password -> go through process once
                     //history.replace(from) //go to login page
                   }}
              >
@@ -165,9 +159,7 @@ export default () => {
                 
                 </form>
 
-                {<p>{/* Error from error message:   */}{error}</p>}
-
-                {<p>{/* Confirmation and login link > confirmation component:   */}{confirmation}</p>}
+                { error ? (<p>{error}</p>) : (<p>{confirmation}</p>)}
                 
                 <Link
                   component="button"
@@ -183,52 +175,3 @@ export default () => {
       </Fragment>
     );
   }
-
-
-  //login coordinator
-  //login form
-  //login button
-  //login fetch
-  //login 
-  //...sign in
-
-
-      /*handleSubmit = (event) => {
-      /* const { email, password } = this.state;
-      //console.log("CODE REFACTORNING - move database connection outside - when? when you deal with registration and password check for login")
-  
-      axios.post('http://www.andysekula.com/server/login.php',
-        {
-          //user: {
-            email: email,
-            password: password
-          //}
-        }/*,
-        { withCredentials: true }*/
-      /*)
-        .then(response => {
-          console.log("response from login.php with msg:", response.data.msg);
-          if (response.data.success === 1) {
-            this.setState({
-              user: response.data.user.reverse()
-            });
-            //console.log("CHANGE USER DATA TO PROTECT PASSWORD ", this.state.user);
-            this.setState({ redirectToReferrer: true });
-            
-            //console.log("user log in and ready to rediect USE this.props.handleSuccessfulAuth(this.state.user)");
-            sessionStorage.setItem('userData', JSON.stringify(this.state.user));
-  
-            //console.log(" ---! login sessionStorage.getItem('userData') ", sessionStorage.getItem('userData'));
-  
-            this.props.handleSuccessfulAuth(this.state.user[0]);
-          }
-        })
-        .catch(error => {
-          console.log("login error ", error);
-        })
-   
-      event.preventDefault();
-      console.log("submit function ");
-    } 
-
-    )*/

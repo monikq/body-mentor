@@ -1,8 +1,8 @@
 import React, {useContext, useState, Fragment} from 'react'
  import {
-    BrowserRouter as Router,
-    useHistory,
-    useLocation
+    //BrowserRouter as Router,
+    useHistory
+    //, useLocation
   } from "react-router-dom"
 import { UserContext }  from "../../Utilities/UserContext"
 import { register } from '../../Authentication'
@@ -33,23 +33,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//error and confirmation style for errors in registration and login and future tabs > ?? global / style hooks?
+
 
 export default () => {
     const classes = useStyles()
     const { user, setUser } = useContext(UserContext)  
     let history = useHistory()
-    let location = useLocation()
-    let { from } = location.state || { from: { pathname: "/" } }
+    //let location = useLocation()
+    //let { from } = location.state || { from: { pathname: "/" } }  //history.replace(from) //go use this function
 
     const [values, setValues] = useState({
-      email: 'test11111@gmail.com',
-      password: 'password',
-      username: 'DeleteMen',
+      username: '',
+      email: '',
+      password: '',
       showPassword: false
     })
     const [error, setError] = useState(false)
     const [confirmation, setConfirmation] = useState(false)
 
+    //a lot of login, log out and sign in buttons on both pages > 3 pages
     const LogoutButton = () => ( <button
       onClick={() => {
           setUser(null)
@@ -58,6 +61,7 @@ export default () => {
       >Logout</button>
       ) 
     
+
     const handleChange = (prop) => (event) => {
       event.preventDefault()
       setValues({ ...values, [prop]: event.target.value });
@@ -70,48 +74,48 @@ export default () => {
     const handleMouseDownPassword = (event) => {
       event.preventDefault();
     };
-    
-/*   const _renderError = () => {
-    error ? ( <p>{error}</p>) : (<p>{confirmation}</p>)
-  } */
 
+    const handleSubmit = async (event) => {
+      event.preventDefault()
+      setError(false) 
+      setConfirmation(false)
+      const response = await register(values)
+      
+      //db response validation
+      if(response.success === 0){
+        console.log(response.success, " and ", response.msg)
+        setError(response.msg)
+      } else {
+        setConfirmation(response.msg)
+      }
+      //setUser(response.user) //if you want to login user
+      //history.replace(from) //go to saved page
+    }
+
+    const _renderError = () => (
+      error ? (<p  style={{color: "red"}}>{error}</p>) : (<p style={{color: "white"}}> . </p>)
+    )
+      
     return (
       <Fragment>
-        <h1>Create new account</h1>
-        <p>You must log in to view the page at {from.pathname}</p>
-        <pre>{JSON.stringify(user, null, 2)}</pre>
-
         { user ? ( 
-            <LogoutButton />
+          <Fragment>
+            {/* this is shared between login and register page > component? */}
+              <pre>{JSON.stringify(user, null, 2)}</pre>
+              <h2>User {user['username']}</h2>
+              <LogoutButton />
+          </Fragment>
           ) : (
             <div>
-              <h2>Login user.</h2>
-                <form 
+              <h2>This will take only 15s</h2>
+                <form
                   onSubmit={
-                    async (event) => {
-                    event.preventDefault()
-
-                    setError(false) 
-                    setConfirmation(false)
-
-                    const response = await register(values)
-                    console.log(response)
-                    
-                    //validation function
-                    if(response.success === 0){
-                      console.log(response.success, " and ", response.msg)
-                      setError(response.msg)
-                    } else {
-                      setConfirmation(response.msg)
-                    }
-                    //setUser(response.user) //let user to log in and save password -> go through process once
-                    //history.replace(from) //go to login page
-                  }}
+                    async (event) => { handleSubmit(event) }
+                  }
              >
               <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
                 <InputLabel htmlFor="component-outlined">Name</InputLabel>
                 <OutlinedInput 
-                  required
                   id="component-outlined" 
                   type="text" value={values.username} 
                   onChange={handleChange('username')} 
@@ -153,14 +157,14 @@ export default () => {
                   />
                 </FormControl>
                 <br />
+                <br />
+                { _renderError() }
+                
+               
                 <Button type="submit" variant="contained" size="large" color="primary" className={classes.margin}>
-                Create new account
+                Sign up
                 </Button>
-                
-                </form>
-
-                { error ? (<p>{error}</p>) : (<p>{confirmation}</p>)}
-                
+                <spam> or </spam>
                 <Link
                   component="button"
                   variant="body2"
@@ -168,8 +172,11 @@ export default () => {
                     history.push("/login")
                   }}
                 >
-                  Login
+                  Log in
                 </Link>
+                </form>
+                
+                
             </div>
           )}
       </Fragment>

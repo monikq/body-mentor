@@ -69,35 +69,43 @@ export default () => {
       event.preventDefault();
     };
 
+    const handleSubmit = async (event) => {
+      event.preventDefault()
+      const response = await login(values)
+
+      if(response.success === 0) {
+        setError(response.msg)
+      } 
+      else if(response.success === 1) {
+        setUser(response.user)
+        if(from.pathname !== '/')
+          history.replace(from)
+      } 
+      else {
+        console.log('error - database input is not in range of values')
+      }
+    }
+
+    const _renderError = () => (
+      error ? (<p  style={{color: "red"}}>{error}</p>) : ''
+    )
+
     return (
       <Fragment>
-        <h1>User Profile</h1>
+        
         { user ? ( 
           <Fragment>
-            <pre>{JSON.stringify(user, null, 2)}</pre>
+            {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
+            <h2>Welcome {user['username']}</h2>
+            <h3>your email is {user['user_email']}</h3>
             <LogoutButton />
           </Fragment>
           ) : (
             <div>
-              <h2>Login user.</h2>
                 <form 
                   onSubmit={
-                    async (event) => {
-                    event.preventDefault()
-                    const response = await login(values)
-                    if(response.success === 0) {
-                      setError(response.msg)
-                    } 
-                    else if(response.success === 1) {
-                      //setConfirmation(response.msg)
-                      setUser(response.user)
-                      if(from.pathname !== '/')
-                        history.replace(from)
-                    } 
-                    else {
-                      console.log('error - database input is not in range of values')
-                    }
-                  }}
+                    async (event) => { handleSubmit(event) }
+                  }
              >
               <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
                 <InputLabel htmlFor="component-outlined">Email</InputLabel>
@@ -133,14 +141,10 @@ export default () => {
                   />
                 </FormControl>
                 <br />
-                <Button type="submit" variant="contained" size="large" color="primary" className={classes.margin}>
-                Login
+                <Button type="submit" variant="contained" disableRipple  size="large" color="primary" className={classes.margin}>
+                Log in
                 </Button>
-                
-                </form>
-
-                { error ? (<p  style={{color: "red"}}>{error}</p>) : ''}
-                
+                <spam> or </spam>
                 <Link
                   component="button"
                   variant="body2"
@@ -148,8 +152,11 @@ export default () => {
                     history.push("/register-new-user")
                   }}
                 >
-                  Sign in
+                  <bold>Sign up</bold>
                 </Link>
+                </form>
+                { _renderError() }
+                
             </div>
           )}
       </Fragment>

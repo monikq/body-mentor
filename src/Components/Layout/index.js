@@ -12,7 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { MenuList, MenuItem } from '@material-ui/core'
+import { MenuList, MenuItem, Button } from '@material-ui/core'
 import { Link, withRouter, useHistory } from 'react-router-dom'
 
 const drawerWidth = 240
@@ -78,58 +78,35 @@ function Layout(props) {
               <MenuItem component={Link} to={path} selected={{path} === pathname}>
                     {text}
                 </MenuItem>
-            ))}
-
-                {/* <MenuItem component={Link} to="/" selected={'/' === pathname}>
-                    Home
-                </MenuItem>
-                <MenuItem component={Link} to="/public" selected={'/public' === pathname}>
-                    Public
-                </MenuItem>
-                <MenuItem component={Link} to="/protected" selected={'/protected' === pathname}>
-                  Protected
-                </MenuItem>
-                <MenuItem component={Link} to="/login" selected={'/login' === pathname}>
-                 Login
-                </MenuItem>
-                <MenuItem component={Link} to="new-training"  selected={'/new-training' === pathname}>
-                    Training
-                </MenuItem>
-                <MenuList>
-                    {trainings.map(({ id, name }) => {
-                        console.log("pathname", pathname)
-                        console.log("props", props)
-                        const to = `/new-training/${id}`
-                        return <MenuItem 
-                            to={to}
-                            key={id} 
-                            className={classes.nested} 
-                            component={Link} 
-                            selected={to === pathname}
-                            >
-                                {name}
-                            </MenuItem>
-                    })}
-                </MenuList> */}
-                
+            ))} 
             </MenuList>
-            {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-            </ListItem>
-            ))} */}
         </List>
         <Divider />
-        {/* <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-            </ListItem>
-            ))}
-        </List> */}
     </div>
+  )
+
+  const _renderHeaderCredentials = () => (
+    user ? ('Hi ' + user.username
+            ) : (
+
+              /*<Link variant="contained" size="small" color="primary" className={classes.margin}
+              onClick={() => {
+                history.push("/login")
+              }}
+              >
+                Log in
+                </Link>*/
+
+               <Button
+                variant="contained" size="small" color="primary" className={classes.margin}
+                style = {{float: "right"}}
+                  onClick={() => {
+                    history.push("/login")
+                  }}
+                >
+                  Log in
+                </Button> 
+            )
   )
 
 
@@ -147,19 +124,8 @@ function Layout(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            {user ? ('Hi ' + user.username
-            ) : (
-              <Link
-                  component="button"
-                  variant="body2"
-                  onClick={() => {
-                    history.push("/login")
-                  }}
-                >
-                  Login
-                </Link>
-            )}
+          <Typography variant="h6" noWrap style={{ flex: 1 }}>
+            { _renderHeaderCredentials() }
           </Typography>
         </Toolbar>
       </AppBar>
@@ -197,29 +163,7 @@ function Layout(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {children}
-        {/* <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-          facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-          gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-          donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-          Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-          imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-          arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-          donec massa sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-          facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-          tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-          consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-          vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-          hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-          tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-          nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-          accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography> */}
+       
       </main>
     </div>
   )
@@ -246,3 +190,73 @@ export default withRouter (Layout)
 //add it as dependency for realibility > package.json test
 yarn add decompose
 */
+
+
+
+
+/* const drawer = (
+  <div>
+      <Hidden /* sxDown */ /*>
+          <div className={classes.toolbar} />   
+      </Hidden>
+    
+      <Divider />
+      <List>
+          <MenuList>
+          {navLinks.map(({text, path}) => (
+            <MenuItem component={Link} to={path} selected={{path} === pathname}>
+                  {text}
+              </MenuItem>
+          ))}
+
+               <MenuItem component={Link} to="/" selected={'/' === pathname}>
+                  Home
+              </MenuItem>
+              <MenuItem component={Link} to="/public" selected={'/public' === pathname}>
+                  Public
+              </MenuItem>
+              <MenuItem component={Link} to="/protected" selected={'/protected' === pathname}>
+                Protected
+              </MenuItem>
+              <MenuItem component={Link} to="/login" selected={'/login' === pathname}>
+               Login
+              </MenuItem>
+              <MenuItem component={Link} to="new-training"  selected={'/new-training' === pathname}>
+                  Training
+              </MenuItem>
+              <MenuList>
+                  {trainings.map(({ id, name }) => {
+                      console.log("pathname", pathname)
+                      console.log("props", props)
+                      const to = `/new-training/${id}`
+                      return <MenuItem 
+                          to={to}
+                          key={id} 
+                          className={classes.nested} 
+                          component={Link} 
+                          selected={to === pathname}
+                          >
+                              {name}
+                          </MenuItem>
+                  })}
+              </MenuList>
+              
+          </MenuList>
+           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem button key={text}>
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemText primary={text} />
+          </ListItem>
+          ))} 
+      </List>
+      <Divider />
+      <List>
+          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem button key={text}>
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemText primary={text} />
+          </ListItem>
+          ))}
+      </List> 
+  </div>
+) */

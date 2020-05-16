@@ -9,7 +9,7 @@ import { register } from '../../Authentication'
 
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import {IconButton, Button, Link} from '@material-ui/core';
+import {IconButton, Button, Link, Typography} from '@material-ui/core';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -50,7 +50,7 @@ export default () => {
       showPassword: false
     })
     const [error, setError] = useState(false)
-    const [confirmation, setConfirmation] = useState(false)
+    //const [confirmation, setConfirmation] = useState(false)
 
     //a lot of login, log out and sign in buttons on both pages > 3 pages
     const LogoutButton = () => ( <button
@@ -78,7 +78,7 @@ export default () => {
     const handleSubmit = async (event) => {
       event.preventDefault()
       setError(false) 
-      setConfirmation(false)
+      //setConfirmation(false)
       const response = await register(values)
       
       //db response validation
@@ -86,7 +86,7 @@ export default () => {
         console.log(response.success, " and ", response.msg)
         setError(response.msg)
       } else {
-        setConfirmation(response.msg)
+        //setConfirmation(response.msg)
       }
       //setUser(response.user) //if you want to login user
       //history.replace(from) //go to saved page
@@ -164,7 +164,7 @@ export default () => {
                 <Button type="submit" variant="contained" size="large" color="primary" className={classes.margin}>
                 Sign up
                 </Button>
-                <spam> or </spam>
+                <Typography> or </Typography>
                 <Link
                   component="button"
                   variant="body2"

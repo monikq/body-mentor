@@ -75,7 +75,7 @@ function Layout(props) {
         <List>
             <MenuList>
             {navLinks.map(({text, path}) => (
-              <MenuItem component={Link} to={path} selected={{path} === pathname}>
+              <MenuItem key={text} component={Link} to={path} selected={{path} === pathname}>
                     {text}
                 </MenuItem>
             ))} 

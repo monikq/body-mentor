@@ -30,30 +30,37 @@ export default function () {
 
   const navLinks = [
     { 
+      id: 1,
       text: "Home",
       path: '/'
     },
     { 
+      id: 2,
       text: "Body",
       path: '/body'
     },
     { 
+      id: 3,
       text: "Trainings",
       path: '/trainings'
     },
     { 
+      id: 4,
       text: "New Training",
       path: '/new-training'
     },
     { 
+      id: 5,
       text: "Sleep",
       path: '/sleep'
     },
     { 
+      id: 6,
       text: "Shit",
       path: '/shit'
     },
     { 
+      id: 7,
       text: "Login",
       path: '/login'
     }

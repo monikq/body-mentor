@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "React authorisation demo",
+  "short_name": "React Backend Base",
+  "name": "React authorisation base project",
   "icons": [
     {
       "src": "favicon.ico",

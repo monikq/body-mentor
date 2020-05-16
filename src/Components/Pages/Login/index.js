@@ -8,7 +8,7 @@ import { login } from '../../Authentication'
 
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import {IconButton, Button, Link} from '@material-ui/core';
+import {IconButton, Button, Link, Typography} from '@material-ui/core';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -87,6 +87,8 @@ export default () => {
     }
 
     const _renderError = () => (
+      //<FormHelperText>{helperText}</FormHelperText>
+      //https://material-ui.com/components/radio-buttons/#show-error
       error ? (<p  style={{color: "red"}}>{error}</p>) : ''
     )
 
@@ -144,7 +146,7 @@ export default () => {
                 <Button type="submit" variant="contained" disableRipple  size="large" color="primary" className={classes.margin}>
                 Log in
                 </Button>
-                <spam> or </spam>
+                <Typography> or
                 <Link
                   component="button"
                   variant="body2"
@@ -152,8 +154,8 @@ export default () => {
                     history.push("/register-new-user")
                   }}
                 >
-                  <bold>Sign up</bold>
-                </Link>
+                  Sign up
+                </Link></Typography>
                 </form>
                 { _renderError() }
                 

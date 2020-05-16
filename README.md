@@ -1,3 +1,5 @@
+#php links for login.php and registration.php change for production links in headersgit p
+
 # react-demo-auth
 basic setup with demo pages, navigation and database connection (php)
 

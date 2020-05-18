@@ -13,6 +13,7 @@ import { NotFound } from "./Errors";
 import Layout from "./Layout";
 import Trainings from "./Trainings";
 import Register from "./Pages/Register";
+import RegisterConfirmation from "./Pages/Register/RegisterConfirmation";
 
 export default function () {
   const [user, setUser] = useState();
@@ -90,6 +91,9 @@ export default function () {
             </Route>
             <Route path="/register-new-user">
               <Register />
+            </Route>
+            <Route path="/register-confirmation">
+              <RegisterConfirmation />
             </Route>
             <PrivateRoute path="/shit">
               <ProtectedPage />

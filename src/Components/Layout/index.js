@@ -1,28 +1,28 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import AppBar from '@material-ui/core/AppBar'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import Divider from '@material-ui/core/Divider'
-import Drawer from '@material-ui/core/Drawer'
-import Hidden from '@material-ui/core/Hidden'
-import IconButton from '@material-ui/core/IconButton'
-import List from '@material-ui/core/List'
+import React from "react";
+import PropTypes from "prop-types";
+import AppBar from "@material-ui/core/AppBar";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
+import Hidden from "@material-ui/core/Hidden";
+import IconButton from "@material-ui/core/IconButton";
+import List from "@material-ui/core/List";
 //import MailIcon from '@material-ui/icons/Mail'
-import MenuIcon from '@material-ui/icons/Menu'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { MenuList, MenuItem, Button } from '@material-ui/core'
-import { Link, withRouter, useHistory } from 'react-router-dom'
+import MenuIcon from "@material-ui/icons/Menu";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { MenuList, MenuItem, Button } from "@material-ui/core";
+import { Link, withRouter, useHistory } from "react-router-dom";
 
-const drawerWidth = 240
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   drawer: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
       flexShrink: 0,
     },
@@ -36,8 +36,8 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
     },
   },
   // necessary for content to be below app bar
@@ -52,63 +52,67 @@ const useStyles = makeStyles((theme) => ({
   nested: {
     paddingLeft: theme.spacing(4),
   },
-}))
+}));
 
 function Layout(props) {
-  const { container, children, /* trainings, */ navLinks, location: {pathname}, user } = props
-  const classes = useStyles()
-  const theme = useTheme()
-  const [mobileOpen, setMobileOpen] = React.useState(false)
-  let history = useHistory()
+  const {
+    container,
+    children,
+    /* trainings, */ navLinks,
+    location: { pathname },
+    user,
+  } = props;
+  const classes = useStyles();
+  const theme = useTheme();
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  let history = useHistory();
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen)
-  }
+    setMobileOpen(!mobileOpen);
+  };
 
   const drawer = (
     <div>
-        <Hidden /* sxDown */ >
-            <div className={classes.toolbar} />   
-        </Hidden>
-      
-        <Divider />
-        <List>
-            <MenuList>
-            {navLinks.map(({text, path}) => (
-              <MenuItem key={text} component={Link} to={path} selected={{path} === pathname}>
-                    {text}
-                </MenuItem>
-            ))} 
-            </MenuList>
-        </List>
-        <Divider />
+      <Hidden /* sxDown */>
+        <div className={classes.toolbar} />
+      </Hidden>
+
+      <Divider />
+      <List>
+        <MenuList>
+          {navLinks.map(({ text, path }) => (
+            <MenuItem
+              key={text}
+              component={Link}
+              to={path}
+              selected={{ path } === pathname}
+            >
+              {text}
+            </MenuItem>
+          ))}
+        </MenuList>
+      </List>
+      <Divider />
     </div>
-  )
+  );
 
-  const _renderHeaderCredentials = () => (
-    user ? ('Hi ' + user.username
-            ) : (
-
-              /*<Link variant="contained" size="small" color="primary" className={classes.margin}
-              onClick={() => {
-                history.push("/login")
-              }}
-              >
-                Log in
-                </Link>*/
-
-               <Button
-                variant="contained" size="small" color="primary" className={classes.margin}
-                style = {{float: "right"}}
-                  onClick={() => {
-                    history.push("/login")
-                  }}
-                >
-                  Log in
-                </Button> 
-            )
-  )
-
+  const _renderHeaderCredentials = () =>
+    user ? (
+      "Hi " + user.username
+    ) : (
+      <Button
+        variant="contained"
+        size="small"
+        color="primary"
+        className={classes.margin}
+        style={{ float: "right" }}
+        onClick={() => {
+          history.push("/login");
+        }}
+      >
+        Log in
+      </Button>
+    );
 
   return (
     <div className={classes.root}>
@@ -125,7 +129,7 @@ function Layout(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap style={{ flex: 1 }}>
-            { _renderHeaderCredentials() }
+            {_renderHeaderCredentials()}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -135,7 +139,7 @@ function Layout(props) {
           <Drawer
             container={container}
             variant="temporary"
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            anchor={theme.direction === "rtl" ? "right" : "left"}
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
@@ -163,10 +167,9 @@ function Layout(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {children}
-       
       </main>
     </div>
-  )
+  );
 }
 
 Layout.propTypes = {
@@ -175,6 +178,6 @@ Layout.propTypes = {
    * You won't need it on your project.
    */
   container: PropTypes.any,
-}
+};
 
-export default withRouter (Layout)
+export default withRouter(Layout);

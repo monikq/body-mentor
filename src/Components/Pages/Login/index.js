@@ -97,6 +97,7 @@ export default () => {
       {user ? (
         <Fragment>
           {/* <pre>{JSON.stringify(user, null, 2)}</pre> */}
+          {/* create profile page > maybe some parent to redirect pages */}
           <h2>Welcome {user["username"]}</h2>
           <h3>your email is {user["user_email"]}</h3>
           <LogoutButton />
@@ -173,7 +174,6 @@ export default () => {
               <Grid item xs />
               <Grid item>
                 <Link
-                  href="#"
                   variant="body2"
                   onClick={() => {
                     history.push("/register-new-user");

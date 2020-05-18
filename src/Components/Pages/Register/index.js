@@ -11,14 +11,10 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import {
-  //BrowserRouter as Router,
-  useHistory,
-  //, useLocation
-} from "react-router-dom";
-import { UserContext } from "../../Utilities/UserContext";
-
+import { useHistory } from "react-router-dom";
+//custom components
 import { register } from "../../Authentication";
+import RegisterConfirmation from "./RegisterConfirmation";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,11 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
   const classes = useStyles();
-  const { user, setUser } = useContext(UserContext);
   let history = useHistory();
-  //let location = useLocation()
-  //let { from } = location.state || { from: { pathname: "/" } }  //history.replace(from) //go use this function
-
   const [values, setValues] = useState({
     username: "",
     email: "",
@@ -57,7 +49,7 @@ export default () => {
     showPassword: false,
   });
   const [error, setError] = useState(false);
-  //const [confirmation, setConfirmation] = useState(false)
+  const [confirmation, setConfirmation] = useState(false);
 
   const handleChange = (prop) => (event) => {
     event.preventDefault();
@@ -75,24 +67,19 @@ export default () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError(false);
-    //setConfirmation(false)
     const response = await register(values);
 
-    //db response validation
     if (response.success === 0) {
-      console.log(response.success, " and ", response.msg);
       setError(response.msg);
     } else {
-      //setConfirmation(response.msg) > go tp New user confirmation page
+      setConfirmation(response.msg);
     }
-    //setUser(response.user) //if you want to login user
-    //history.replace(from) //go to saved page
   };
 
   return (
     <Container component="main" maxWidth="xs">
-      {user ? (
-        console.log("push to login page")
+      {confirmation ? (
+        <RegisterConfirmation msg={confirmation} />
       ) : (
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">
@@ -181,7 +168,6 @@ export default () => {
               <Grid item xs />
               <Grid item>
                 <Link
-                  href="#"
                   variant="body2"
                   onClick={() => {
                     history.push("/login");

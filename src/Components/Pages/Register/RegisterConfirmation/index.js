@@ -9,25 +9,14 @@ import {
 } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-  },
   margin: {
     margin: theme.spacing(3, 0, 2),
-  },
-  withoutLabel: {
-    marginTop: theme.spacing(3),
   },
   paper: {
     marginTop: theme.spacing(5),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
   },
 }));
 

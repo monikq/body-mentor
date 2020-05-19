@@ -1,5 +1,4 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
@@ -14,6 +13,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { MenuList, MenuItem, Button } from "@material-ui/core";
 import { Link, withRouter, useHistory } from "react-router-dom";
+
+import { UserContext } from "../Utilities/UserContext";
 
 const drawerWidth = 240;
 
@@ -58,14 +59,15 @@ function Layout(props) {
   const {
     container,
     children,
-    /* trainings, */ navLinks,
+    navLinks,
     location: { pathname },
-    user,
   } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   let history = useHistory();
+
+  const { user, setUser } = useContext(UserContext);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -114,6 +116,13 @@ function Layout(props) {
       </Button>
     );
 
+  if (!user) {
+    if (sessionStorage.getItem("userData")) {
+      let userSession = JSON.parse(sessionStorage.getItem("userData"));
+      setUser(userSession);
+    }
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -134,7 +143,6 @@ function Layout(props) {
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
             container={container}
@@ -171,13 +179,5 @@ function Layout(props) {
     </div>
   );
 }
-
-Layout.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  container: PropTypes.any,
-};
 
 export default withRouter(Layout);

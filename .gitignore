@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 package-lock.json
+yarn.lock
 
 # testing
 /coverage
@@ -24,4 +25,4 @@ yarn-debug.log*
 yarn-error.log*
 
 .editorconfig
-src/.prettierignore
+.prettierignore

@@ -1,10 +1,14 @@
+# git clone https://github.com/monikq/body-mentor.git
+
+# npm i
+
+# create database table on lockalhost
+
 #php links for login.php and registration.php change for production links in headersgit p
 
 # react-demo-auth
+
 basic setup with demo pages, navigation and database connection (php)
-
-
-
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

@@ -1,4 +1,9 @@
-# git clone https://github.com/monikq/body-mentor.git
+# 2 environment setup
+
+    2.a rename filr .env.sample into .env
+    2.b update your API URL
+
+# 1 git clone https://github.com/monikq/body-mentor.git
 
 # npm i
 

@@ -2,7 +2,7 @@
 
 	$username = 'root';
     $password = '';
-    $databasename = 'react-demo-auth';
+    $databasename = 'body-mentor';
     $servername = 'localhost';
     $port = 3308;
 

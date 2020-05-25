@@ -1,9 +1,12 @@
 import axios from 'axios'
 
-const env = 'http://localhost:8888/'
-const link = `${env}body-mentor/authorisation/`
+const domain = process.env.REACT_APP_API_URL.replace("';", '')
+const link = `${domain}body-mentor/authorisation/`
 
 export const login = async ({email, password}) => {
+	console.log('process.env', domain)
+	console.log('link', link)
+
 	let response = await axios
 		.post(
 			`${link}login.php`,

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const env = 'http://localhost:8888/'
-const link = `${env}body-mentor/calories/`
+const domain = process.env.REACT_APP_API_URL.replace("';", '')
+const link = `${domain}body-mentor/calories/`
 
 export const fetchTotalCaloriesTodayForUserId = async user_id => {
 	if (!user_id) {
@@ -84,8 +84,6 @@ export const fetchCaloriesRecordTodayByUserID = async user_id => {
 
 	return response.data //async function should we await for anything? I dont think so
 }
-
-const _validateUserId = () => {}
 
 export const addCalories = async (user_id, values) => {
 	console.log('!!!!!!!!!! 2 addCalories - user:', user_id)

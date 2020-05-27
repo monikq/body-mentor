@@ -30,3 +30,5 @@ yarn-error.log*
 .prettierignore
 
 README.md
+
+/server/db_connection.php

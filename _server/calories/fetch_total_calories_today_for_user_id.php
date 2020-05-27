@@ -15,7 +15,10 @@ if($post)
 	$user_id = $post['user_id'];
 	if(empty(trim($user_id))) {array_push($errors, "User is not provided, authorization error");};
 
-	$query = "SELECT SUM(`weight`) AS 'total_grams_today', SUM(`kCal_100g`/100 * `weight`) AS 'total_kcal_today' FROM `daily_calories` WHERE `DT` = CURRENT_DATE AND `user_id` = $user_id";
+	$query = "SELECT SUM(`weight`) as 'grams_sum', SUM(`kCal_100g`) as 'kCal_sum_100g', CAST(SUM(`kCal_100g`/100*`weight`) AS INT) as kCal_sum FROM `daily_calories` WHERE `DT` = CURRENT_DATE and `user_id` = $user_id";
+
+	/* this is working on localhost 
+	"SELECT SUM(`weight`) AS 'total_grams_today', SUM(`kCal_100g`/100 * `weight`) AS 'total_kcal_today' FROM `daily_calories` WHERE `DT` = CURRENT_DATE AND `user_id` = $user_id";*/
 
  	$data = mysqli_query($db_conn, $query);
 
@@ -23,7 +26,7 @@ if($post)
         $data = mysqli_fetch_array($data,MYSQLI_ASSOC);
         echo json_encode(["success"=>1,"msg"=>"It's working", "data"=>$data]);
     } else {
-    	echo json_encode(["success"=>0,"msg"=>"Database connection error, pls try again"]);
+    	echo json_encode(["success"=>0,"msg"=>$query, "msg2"=>"Database connection error, pls try again"]);
     }
 } 
 else 

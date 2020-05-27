@@ -15,11 +15,11 @@ if($post)
 	$user_id = $post['user_id'];
 	if(empty(trim($user_id))) {array_push($errors, "User is not provided, authorization error");};
 
-	$query = "SELECT `weight`, `kCal_100g`, `kCal_100g`/100*`weight` AS kCal, `DT`, `created_at`, `FoodType` 
-    FROM `daily_calories` WHERE `DT` = CURRENT_DATE AND `user_id` = $user_id ORDER BY `created_at` DESC";
-
-	/*"SELECT `id`, `weight`, `kCal_100g`, CAST(`kCal_100g`/100*`weight` AS INT) as kCal, `DT`, TIME_FORMAT( CAST(`created_at` as TIME), ".'"%H:%i"'.") as `created_at`, `FoodType` 
-	FROM `daily_calories` WHERE `DT` = CURRENT_DATE and `user_id` = $userID ORDER BY `created_at` desc";*/
+	$query = "SELECT `id`, `weight`, `kCal_100g`, CAST(`kCal_100g`/100*`weight` AS INT) as kCal, `DT`, TIME_FORMAT( CAST(`created_at` as TIME), ".'"%H:%i"'.") as `created_at`, `FoodType` 
+	FROM `daily_calories` WHERE `DT` = CURRENT_DATE and `user_id` = $userID ORDER BY `created_at` desc";
+	/* this is working on localhost
+	"SELECT `weight`, `kCal_100g`, `kCal_100g`/100*`weight` AS kCal, `DT`, `created_at`, `FoodType` 
+    FROM `daily_calories` WHERE `DT` = CURRENT_DATE AND `user_id` = $user_id ORDER BY `created_at` DESC";*/
 
  	$data = mysqli_query($db_conn, $query) or die(mysqli_error());
 

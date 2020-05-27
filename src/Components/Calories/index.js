@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const domain = process.env.REACT_APP_API_URL.replace("';", '')
-const link = `${domain}body-mentor/calories/`
+const link = `${domain}calories/`
 
 export const fetchTotalCaloriesTodayForUserId = async user_id => {
 	if (!user_id) {
@@ -120,6 +120,6 @@ export const addCalories = async (user_id, values) => {
 
 	if (response.data.success)
 		console.log('server response addCalories() :', response.data)
-
+	console.log('!!!!!!!!!@@@@@@@@ response.data', response.data)
 	return response.data
 }

@@ -47,7 +47,7 @@ export default () => {
 	let {from} = location.state || {from: {pathname: '/'}}
 
 	const [values, setValues] = useState({
-		email: 'bob@bob.pl',
+		email: 'test@gmail.com', //bob@bob.pl
 		password: 'password',
 		showPassword: false,
 	})

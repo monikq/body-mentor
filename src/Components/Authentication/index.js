@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const domain = process.env.REACT_APP_API_URL.replace("';", '')
-const link = `${domain}body-mentor/authorisation/`
+const link = `${domain}authorisation/`
 
 export const login = async ({email, password}) => {
 	console.log('process.env', domain)

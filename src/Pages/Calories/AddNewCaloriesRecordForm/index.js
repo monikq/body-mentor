@@ -51,10 +51,16 @@ export default props => {
 	const [confirmation, setConfirmation] = useState(false)
 	const foodTypes = [
 		{
-			name: 'Vegetables',
+			name: 'Non-Starchy Vegetables',
 			proteinProcentage: '3',
 			carbsProcentage: '94',
 			fatProcentage: '3',
+		},
+		{
+			name: 'Starchy Vegetables',
+			proteinProcentage: '5',
+			carbsProcentage: '90',
+			fatProcentage: '5',
 		},
 		{
 			name: 'Grains',
@@ -69,7 +75,7 @@ export default props => {
 			fatProcentage: '1',
 		},
 		{
-			name: 'Oils',
+			name: 'Fats and Oils',
 			proteinProcentage: '5',
 			carbsProcentage: '90',
 			fatProcentage: '5',
@@ -81,7 +87,25 @@ export default props => {
 			fatProcentage: '3',
 		},
 		{
-			name: 'Animal Product',
+			name: 'Dairy (milk & eggs)',
+			proteinProcentage: '5',
+			carbsProcentage: '90',
+			fatProcentage: '5',
+		},
+		{
+			name: 'Red meat',
+			proteinProcentage: '5',
+			carbsProcentage: '90',
+			fatProcentage: '5',
+		},
+		{
+			name: 'White meat (poultry)',
+			proteinProcentage: '5',
+			carbsProcentage: '90',
+			fatProcentage: '5',
+		},
+		{
+			name: 'Fish & seafood',
 			proteinProcentage: '5',
 			carbsProcentage: '90',
 			fatProcentage: '5',
@@ -182,6 +206,7 @@ export default props => {
 						category
 					</InputLabel>
 					<Select
+						required
 						labelId="demo-simple-select-outlined-label"
 						id="demo-simple-select-outlined"
 						value={values.foodCategory}

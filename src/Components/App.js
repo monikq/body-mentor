@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useContext} from 'react'
+import React, {useState, useMemo, useContext, useEffect} from 'react'
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -17,13 +17,25 @@ import RegisterConfirmation from './Pages/Register/RegisterConfirmation'
 import Calories from '../Pages/Calories'
 
 export default function () {
-	const [user, setUser] = useState()
-	// const [trainings, setTrainings] = useState()
+	const [user, setUser] = useState(() => fetchUserFromSessionStorage())
 	const providerValue = useMemo(() => ({user: user, setUser: setUser}), [
 		user,
 		setUser,
 	])
 
+	function fetchUserFromSessionStorage() {
+		if (sessionStorage.getItem('userData')) {
+			let userSession = JSON.parse(sessionStorage.getItem('userData'))
+
+			console.log('checkUserSession: true', userSession)
+			return userSession
+		} else {
+			console.log('checkUserSession: false')
+			return false
+		}
+	}
+
+	//move links outside of this function
 	const navLinks = [
 		{
 			id: 1,
@@ -53,8 +65,8 @@ export default function () {
 		},
 		{
 			id: 6,
-			text: 'Shit',
-			path: '/shit',
+			text: 'Hydration',
+			path: '/hydration',
 		},
 		{
 			id: 7,
@@ -63,17 +75,9 @@ export default function () {
 		},
 	]
 
-	const checkUserSession = () => {
-		if (!user) {
-			if (sessionStorage.getItem('userData')) {
-				let userSession = JSON.parse(sessionStorage.getItem('userData'))
-				setUser(userSession)
-				//console.log('checkUserSession: true', userSession)
-			} else console.log('checkUserSession: false')
-		} //else console.log('checkUserSession: true')
-	} /* this function must be called before return() */
-
-	checkUserSession()
+	useEffect(() => {
+		document.title = 'body mentor'
+	}, [])
 
 	return (
 		<Router>
@@ -101,7 +105,7 @@ export default function () {
 						<PrivateRoute path="/sleep">
 							<ProtectedPage />
 						</PrivateRoute>
-						<PrivateRoute path="/shit">
+						<PrivateRoute path="/hydration">
 							<ProtectedPage />
 						</PrivateRoute>
 						<Route path="/login">
@@ -151,7 +155,3 @@ function PrivateRoute({children, ...rest}) {
 		/>
 	)
 }
-
-// zaloguj sie i wejdz na strone
-// wyloguj sie i wejdz
-//

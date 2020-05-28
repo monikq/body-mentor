@@ -47,8 +47,8 @@ export default () => {
 	let {from} = location.state || {from: {pathname: '/'}}
 
 	const [values, setValues] = useState({
-		email: 'test@gmail.com', //bob@bob.pl
-		password: 'password',
+		email: '',
+		password: '',
 		showPassword: false,
 	})
 	const [error, setError] = useState(false)
@@ -94,6 +94,7 @@ export default () => {
 				'response user',
 				response.user
 			)
+
 			if (from.pathname !== '/') history.replace(from)
 		} else {
 			console.log('error - database input is not in range of values')

@@ -3,6 +3,9 @@
     2.a rename filr .env.sample into .env
     2.b update your API URL
 
+    -- php
+    header("Access-Control-Allow-Origin: http://www.monikakolodziejczyk.com");
+
 # 1 git clone https://github.com/monikq/body-mentor.git
 
 # npm i

@@ -4,9 +4,6 @@ const domain = process.env.REACT_APP_API_URL.replace("';", '')
 const link = `${domain}authorisation/`
 
 export const login = async ({email, password}) => {
-	console.log('process.env', domain)
-	console.log('link', link)
-
 	let response = await axios
 		.post(
 			`${link}login.php`,
@@ -29,7 +26,8 @@ export const login = async ({email, password}) => {
 		}
 		return obj
 	}
-	//whos responsibility should that be? > context hook?
+
+	//	SAVE USER DATA IN SESSION
 	if ((await response.data.success) === 1) {
 		let user = response.data.user
 		sessionStorage.setItem('userData', JSON.stringify(user))

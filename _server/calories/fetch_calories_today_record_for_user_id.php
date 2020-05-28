@@ -13,20 +13,21 @@ $errors = array();
 if($post)
 { 
 	$user_id = $post['user_id'];
-	if(empty(trim($user_id))) {array_push($errors, "User is not provided, authorization error");};
+	//if(empty(trim($user_id))) {array_push($errors, "User is not provided, authorization error");};
 
 	$query = "SELECT `id`, `weight`, `kCal_100g`, CAST(`kCal_100g`/100*`weight` AS INT) as kCal, `DT`, TIME_FORMAT( CAST(`created_at` as TIME), ".'"%H:%i"'.") as `created_at`, `FoodType` 
-	FROM `daily_calories` WHERE `DT` = CURRENT_DATE and `user_id` = $userID ORDER BY `created_at` desc";
-	/* this is working on localhost
-	"SELECT `weight`, `kCal_100g`, `kCal_100g`/100*`weight` AS kCal, `DT`, `created_at`, `FoodType` 
-    FROM `daily_calories` WHERE `DT` = CURRENT_DATE AND `user_id` = $user_id ORDER BY `created_at` DESC";*/
+	FROM `daily_calories` WHERE `DT` = CURRENT_DATE and `user_id` = $user_id ORDER BY `created_at` desc";
+
+	/*"SELECT `id`, `weight`, `kCal_100g`, CAST(`kCal_100g`/100*`weight` AS INT) as kCal, `DT`, TIME_FORMAT( CAST(`created_at` as TIME), ".'"%H:%i"'.") as `created_at`, `FoodType` 
+	FROM `daily_calories` WHERE `DT` = CURRENT_DATE and `user_id` = $user_id ORDER BY `created_at` desc";*/
 
  	$data = mysqli_query($db_conn, $query) or die(mysqli_error());
+ 	$rows = mysqli_num_rows($data);
 
- 	if(mysqli_num_rows($data) > 0)
+ 	if($rows > 0)
  	{
-        $data = mysqli_fetch_array($data,MYSQLI_ASSOC);
-        echo json_encode(["success1"=>1, "data"=>$data, "rows"=>mysqli_num_rows($data)]);
+        $data = mysqli_fetch_all($data,MYSQLI_ASSOC);
+        echo json_encode(["success"=>1, "data"=>$data, "rows"=>$rows]);
     } else {
     	echo json_encode(["success"=>0,"msg"=>"No records from today, add your meal kcal"]);
     }

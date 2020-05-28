@@ -33,7 +33,7 @@ if($post)
  	{
 		echo json_encode(["success"=>1,"msg"=>"Your record has been saved."]);
 	} else {
-		echo json_encode(["success"=>0,"msg"=>"Problem with database update, pls try again."]);
+		echo json_encode(["success"=>0,"msg"=>"Problem with database update, pls try again.", "query"=>$query]);
 	}
 } 
 else 

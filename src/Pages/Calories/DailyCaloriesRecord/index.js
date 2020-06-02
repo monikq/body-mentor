@@ -2,7 +2,7 @@ import React from 'react'
 import {Typography, Container} from '@material-ui/core'
 
 export default ({dailyRecords}) => {
-	const _renderRecord = () => {
+	const _renderRecords = () => {
 		if (!dailyRecords || dailyRecords === undefined) {
 			return (
 				<Typography gutterBottom align="left">
@@ -13,11 +13,20 @@ export default ({dailyRecords}) => {
 			return (
 				<Typography gutterBottom align="left">
 					{dailyRecords.map(
-						({id, DT, FoodType, created_at, kCal, kCal_100g, weight}) => (
-							<p>
+						({
+							id,
+							DT,
+							FoodType,
+							created_at,
+							kCal,
+							kCal_100g,
+							weight,
+							index,
+						}) => (
+							<Typography key={index}>
 								[{created_at}] <strong>{kCal} kcal:</strong> {weight}g (
 								{FoodType})
-							</p>
+							</Typography>
 						)
 					)}
 				</Typography>
@@ -25,12 +34,13 @@ export default ({dailyRecords}) => {
 		}
 	}
 
+	//https://material-ui.com/components/lists/
 	return (
 		<Container component="main" maxWidth="xs">
 			<Typography variant="h5" display="block" align="center">
 				Today record details:
 			</Typography>
-			{_renderRecord()}
+			{_renderRecords()}
 		</Container>
 	)
 }

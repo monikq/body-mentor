@@ -1,3 +1,5 @@
+# 3 yarn add --dev react-snap - to solve issue with 404 client site application after refresh
+
 # 2 environment setup
 
     2.a rename filr .env.sample into .env

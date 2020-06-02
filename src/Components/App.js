@@ -27,10 +27,10 @@ export default function () {
 		if (sessionStorage.getItem('userData')) {
 			let userSession = JSON.parse(sessionStorage.getItem('userData'))
 
-			console.log('checkUserSession: true', userSession)
+			//console.log('checkUserSession: true', userSession)
 			return userSession
 		} else {
-			console.log('checkUserSession: false')
+			//console.log('checkUserSession: false')
 			return false
 		}
 	}
@@ -47,7 +47,7 @@ export default function () {
 			text: 'Calories',
 			path: '/calories',
 		},
-		{
+		/* {
 			id: 3,
 			text: 'Body',
 			path: '/body',
@@ -67,7 +67,7 @@ export default function () {
 			id: 6,
 			text: 'Hydration',
 			path: '/hydration',
-		},
+		}, */
 		{
 			id: 7,
 			text: 'Login',
@@ -100,8 +100,6 @@ export default function () {
 							path="/trainings"
 							component={props => <Trainings {...props} />}
 						/>
-						{/* this is not protecting page while no user - no redirect
-						 * when using render nothing is showing up -> component is not opening [white page] */}
 						<PrivateRoute path="/sleep">
 							<ProtectedPage />
 						</PrivateRoute>

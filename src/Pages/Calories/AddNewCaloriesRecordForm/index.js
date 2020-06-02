@@ -75,31 +75,32 @@ export default props => {
 			fatProcentage: '1',
 		},
 		{
+			name: 'Fruits',
+			proteinProcentage: '1',
+			carbsProcentage: '98',
+			fatProcentage: '1',
+		},
+
+		{
+			name: 'Nuts and Seeds',
+			proteinProcentage: '3',
+			carbsProcentage: '94',
+			fatProcentage: '3',
+		},
+		{
 			name: 'Fats and Oils',
 			proteinProcentage: '5',
 			carbsProcentage: '90',
 			fatProcentage: '5',
 		},
 		{
-			name: 'Nuts',
-			proteinProcentage: '3',
-			carbsProcentage: '94',
-			fatProcentage: '3',
-		},
-		{
-			name: 'Dairy (milk & eggs)',
+			name: 'Dairy',
 			proteinProcentage: '5',
 			carbsProcentage: '90',
 			fatProcentage: '5',
 		},
 		{
-			name: 'Red meat',
-			proteinProcentage: '5',
-			carbsProcentage: '90',
-			fatProcentage: '5',
-		},
-		{
-			name: 'White meat (poultry)',
+			name: 'Eggs',
 			proteinProcentage: '5',
 			carbsProcentage: '90',
 			fatProcentage: '5',
@@ -111,10 +112,16 @@ export default props => {
 			fatProcentage: '5',
 		},
 		{
-			name: 'Fruits',
-			proteinProcentage: '1',
-			carbsProcentage: '98',
-			fatProcentage: '1',
+			name: 'Poultry',
+			proteinProcentage: '5',
+			carbsProcentage: '90',
+			fatProcentage: '5',
+		},
+		{
+			name: 'Red meat',
+			proteinProcentage: '5',
+			carbsProcentage: '90',
+			fatProcentage: '5',
 		},
 		{
 			name: 'Sweet',

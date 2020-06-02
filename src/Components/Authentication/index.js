@@ -17,7 +17,7 @@ export const login = async ({email, password}) => {
 			}
 		)
 		.catch(error => {
-			console.log(error)
+			console.log(error, ' link', `${link}login.php`)
 		})
 	if (!response) {
 		var obj = {

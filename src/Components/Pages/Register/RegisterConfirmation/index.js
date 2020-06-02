@@ -1,7 +1,7 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import {IconButton, Button, Link, Typography} from '@material-ui/core'
+
+import {Link, Typography} from '@material-ui/core'
 import {
 	//BrowserRouter as Router,
 	useHistory,
@@ -24,7 +24,6 @@ const useStyles = makeStyles(theme => ({
 export default props => {
 	let history = useHistory()
 	const classes = useStyles()
-	console.log('Registration confirmation pops', props.msg)
 
 	return (
 		<Container component="main" maxWidth="xs">

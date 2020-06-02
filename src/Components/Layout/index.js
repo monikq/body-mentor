@@ -6,7 +6,6 @@ import Drawer from '@material-ui/core/Drawer'
 import Hidden from '@material-ui/core/Hidden'
 import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
-//import MailIcon from '@material-ui/icons/Mail'
 import MenuIcon from '@material-ui/icons/Menu'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
@@ -56,6 +55,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function Layout(props) {
+	const {user} = useContext(UserContext)
 	const {
 		container,
 		children,
@@ -66,8 +66,6 @@ function Layout(props) {
 	const theme = useTheme()
 	const [mobileOpen, setMobileOpen] = useState(false)
 	let history = useHistory()
-
-	const {user, setUser} = useContext(UserContext)
 
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen)
@@ -82,9 +80,9 @@ function Layout(props) {
 			<Divider />
 			<List>
 				<MenuList>
-					{navLinks.map(({text, path}) => (
+					{navLinks.map(({text, path, index}) => (
 						<MenuItem
-							key={text}
+							key={index}
 							component={Link}
 							to={path}
 							selected={{path} === pathname}

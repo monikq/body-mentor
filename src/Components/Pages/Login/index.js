@@ -88,27 +88,12 @@ export default () => {
 		} else if (response.success === 1) {
 			setUser(response.user)
 			sessionStorage.setItem('userData', JSON.stringify(response.user))
-			console.log(
-				"session (<Redirect to={'/home'} />);",
-				JSON.stringify(user),
-				'response user',
-				response.user
-			)
 
 			if (from.pathname !== '/') history.replace(from)
 		} else {
 			console.log('error - database input is not in range of values')
 		}
 	}
-
-	/* 
-    if (sessionStorage.getItem('userData')) {
-			//return (<Redirect to={'/home'} />);
-			console.log("session (<Redirect to={'/home'} />);")
-    }
-    let userData = JSON.parse(sessionStorage.getItem("userData"));
-    sessionStorage.setItem('userData', JSON.stringify(this.state.user));
-    */
 
 	return (
 		<Container component="main" maxWidth="xs">

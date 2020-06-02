@@ -1,6 +1,5 @@
 import React, {useContext, useState, useEffect, useCallback} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import {Typography, Container} from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import {UserContext} from '../../Components/Utilities/UserContext'
 import {
@@ -44,8 +43,6 @@ export default () => {
 				user.user_id
 			)
 
-			console.log('responseRecord', responseRecord)
-
 			if (responseTotal.success === 0 || !responseTotal.success) {
 				console.log('something went wrong please try again with db response 0')
 			} else if (responseTotal.success === 1) {
@@ -62,8 +59,6 @@ export default () => {
 				console.log('error fetching calories record')
 			}
 		}
-
-		console.log('dailyRecords', dailyRecords)
 
 		fetchData()
 	}, [formValues])

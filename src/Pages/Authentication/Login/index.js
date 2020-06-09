@@ -12,9 +12,9 @@ import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import {useHistory, useLocation} from 'react-router-dom'
-import {UserContext} from '../../Utilities/UserContext'
 
-import {login} from '../../Authentication'
+import {UserContext} from '../../../Components/Utilities/UserContext'
+import {login} from '../../../Components/Authentication'
 
 const useStyles = makeStyles(theme => ({
 	root: {

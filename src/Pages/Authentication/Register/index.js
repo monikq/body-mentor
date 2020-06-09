@@ -13,7 +13,7 @@ import Container from '@material-ui/core/Container'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import {useHistory} from 'react-router-dom'
 //custom components
-import {register} from '../../Authentication'
+import {register} from '../../../Components/Authentication'
 import RegisterConfirmation from './RegisterConfirmation'
 
 const useStyles = makeStyles(theme => ({

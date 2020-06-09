@@ -7,14 +7,14 @@ import {
 } from 'react-router-dom'
 import Home from './Pages/Home'
 import ProtectedPage from './Pages/ProtectedPage'
-import Login from './Pages/Login'
-import {UserContext} from './Utilities/UserContext'
-import {NotFound} from './Errors'
-import Layout from './Layout'
-import Trainings from './Trainings'
-import Register from './Pages/Register'
-import RegisterConfirmation from './Pages/Register/RegisterConfirmation'
-import Calories from '../Pages/Calories'
+import Login from './Pages/Authentication/Login'
+import {UserContext} from './Components/Utilities/UserContext'
+import {NotFound} from './Components/Errors'
+import Layout from './Components/Layout'
+//import Trainings from './Trainings'
+import Register from './Pages/Authentication/Register'
+import RegisterConfirmation from './Pages/Authentication/Register/RegisterConfirmation'
+import Calories from './Pages/Calories'
 
 export default function () {
 	const [user, setUser] = useState(() => fetchUserFromSessionStorage())
@@ -38,38 +38,32 @@ export default function () {
 	//move links outside of this function
 	const navLinks = [
 		{
-			id: 1,
 			text: 'Home',
 			path: '/',
 		},
 		{
-			id: 2,
 			text: 'Calories',
 			path: '/calories',
 		},
-		/* {
-			id: 3,
-			text: 'Body',
-			path: '/body',
-		},
+
 		{
-			id: 4,
 			text: 'Trainings',
 			path: '/trainings',
 		},
-
 		{
-			id: 5,
+			text: 'Body',
+			path: '/body',
+		},
+		/*
+		{
 			text: 'Sleep',
 			path: '/sleep',
 		},
 		{
-			id: 6,
 			text: 'Hydration',
 			path: '/hydration',
 		}, */
 		{
-			id: 7,
 			text: 'Login',
 			path: '/login',
 		},
@@ -96,10 +90,13 @@ export default function () {
 						<PrivateRoute path="/body">
 							<ProtectedPage />{' '}
 						</PrivateRoute>
-						<PrivateRoute
+						{/* <PrivateRoute
 							path="/trainings"
 							component={props => <Trainings {...props} />}
-						/>
+						/> */}
+						<PrivateRoute path="/trainings">
+							<ProtectedPage />
+						</PrivateRoute>
 						<PrivateRoute path="/sleep">
 							<ProtectedPage />
 						</PrivateRoute>

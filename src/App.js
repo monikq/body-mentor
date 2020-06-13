@@ -11,7 +11,7 @@ import Login from './Pages/Authentication/Login'
 import {UserContext} from './Components/Utilities/UserContext'
 import {NotFound} from './Components/Errors'
 import Layout from './Components/Layout'
-//import Trainings from './Trainings'
+import Trainings from './Pages/Trainings'
 import Register from './Pages/Authentication/Register'
 import RegisterConfirmation from './Pages/Authentication/Register/RegisterConfirmation'
 import Calories from './Pages/Calories'
@@ -95,7 +95,7 @@ export default function () {
 							component={props => <Trainings {...props} />}
 						/> */}
 						<PrivateRoute path="/trainings">
-							<ProtectedPage />
+							<Trainings />
 						</PrivateRoute>
 						<PrivateRoute path="/sleep">
 							<ProtectedPage />

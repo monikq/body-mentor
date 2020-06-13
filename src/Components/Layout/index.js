@@ -74,15 +74,15 @@ function Layout(props) {
 	const drawer = (
 		<div>
 			<Hidden /* sxDown */>
-				<div className={classes.toolbar} />
+				<div className={classes.toolbar} key="hidden_drawer" />
 			</Hidden>
 
 			<Divider />
 			<List>
-				<MenuList>
+				<MenuList key="menu_list">
 					{navLinks.map(({text, path, index}) => (
 						<MenuItem
-							key={index}
+							key={`${index}_${text}_menu`}
 							component={Link}
 							to={path}
 							selected={{path} === pathname}

@@ -86,6 +86,9 @@ function Layout(props) {
 							component={Link}
 							to={path}
 							selected={{path} === pathname}
+							onClick={() => {
+								setMobileOpen(false)
+							}}
 						>
 							{text}
 						</MenuItem>

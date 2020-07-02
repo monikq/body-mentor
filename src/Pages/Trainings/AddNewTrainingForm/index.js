@@ -81,7 +81,7 @@ export default ({training, updateFormData, sessionName}) => {
 		if (confirm === true) {
 			//console.log('add new training trainingRecord: ', trainingRecord)
 
-			const response = await updateFormData(trainingRecord)
+			const response = await updateFormData(trainingRecord, sessionName)
 
 			//console.log('add new training response: ', response)
 

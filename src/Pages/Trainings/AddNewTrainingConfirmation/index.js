@@ -35,7 +35,7 @@ export default ({trainingRecord, msg, confirm}) => {
 	const handleSubmit = async event => {
 		event.preventDefault()
 		//console.log('dropdown trainingsList selected', trainingsList)
-		//console.log('dropdown training selected', selectedTraining)
+		console.log('dropdown training selected', trainingRecord)
 		confirm()
 	}
 

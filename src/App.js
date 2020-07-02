@@ -58,11 +58,11 @@ export default function () {
 		{
 			text: 'Sleep',
 			path: '/sleep',
-		},
+		},*/
 		{
-			text: 'Hydration',
-			path: '/hydration',
-		}, */
+			text: 'About',
+			path: '/About',
+		},
 		{
 			text: 'Login',
 			path: '/login',
@@ -81,28 +81,6 @@ export default function () {
 						<Route exact path="/">
 							<Home />
 						</Route>
-						<Route path="/public">
-							<Home />
-						</Route>
-						<PrivateRoute path="/calories">
-							<Calories />
-						</PrivateRoute>
-						<PrivateRoute path="/body">
-							<ProtectedPage />{' '}
-						</PrivateRoute>
-						{/* <PrivateRoute
-							path="/trainings"
-							component={props => <Trainings {...props} />}
-						/> */}
-						<PrivateRoute path="/trainings">
-							<Trainings />
-						</PrivateRoute>
-						<PrivateRoute path="/sleep">
-							<ProtectedPage />
-						</PrivateRoute>
-						<PrivateRoute path="/hydration">
-							<ProtectedPage />
-						</PrivateRoute>
 						<Route path="/login">
 							<Login />
 						</Route>
@@ -112,15 +90,12 @@ export default function () {
 						<Route path="/register-confirmation">
 							<RegisterConfirmation />
 						</Route>
-						/>
-						{/* <Route
-							path="/trainings"
-							render={props => <Trainings {...props} trainings={trainings} />}
-						/> 
-						<PrivateRoute
-							path="/new-training"
-							render={props => <Trainings {...props} trainings={trainings} />}
-						/>*/}
+						<Route exact path="/About" render={() => <div>About me</div>} />
+
+						<PrivateRoute path="/calories">{`Calories`}</PrivateRoute>
+						<PrivateRoute path="/body">{'ProtectedPage'}</PrivateRoute>
+						<PrivateRoute path="/trainings">{'Trainings'}</PrivateRoute>
+
 						<Route component={NotFound} />
 					</Switch>
 				</Layout>
@@ -131,13 +106,31 @@ export default function () {
 
 function PrivateRoute({children, ...rest}) {
 	const {user} = useContext(UserContext)
+	const _renderSwitch = () => {
+		if (!children || children === undefined) {
+			return <p>Loading...</p>
+		} else if (children !== undefined) {
+			switch (children) {
+				case 'Trainings':
+					return <Trainings {...rest} />
+				case 'Calories':
+					return <Calories {...rest} />
+				case 'ProtectedPage':
+					return <ProtectedPage {...rest} />
+				case 'to use':
+					return <Calories {...rest} />
+				default:
+					return <Home />
+			}
+		}
+	}
 
 	return (
 		<Route
 			{...rest}
 			render={({location}) =>
 				user ? (
-					children
+					_renderSwitch()
 				) : (
 					<Redirect
 						to={{

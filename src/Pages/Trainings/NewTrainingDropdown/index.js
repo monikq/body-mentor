@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import {Link, Route} from 'react-router-dom'
 import {makeStyles} from '@material-ui/core/styles'
 import {
 	Container,
@@ -38,27 +39,28 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-export default ({trainingsList, updateDropdownData, trainingToStart}) => {
+export default ({
+	computedMatch: {url},
+	trainingsList,
+	updateDropdownData,
+	trainingToStart,
+}) => {
 	const classes = useStyles()
-	//const [values, setValues] = useState({foodCategory: 'click and choose'})
-	const [selectedTraining, setSelectedTraining] = useState(trainingToStart)
+	const [selectedTrainingId, setSelectedTraining] = useState(trainingToStart)
 	const [error, setError] = useState(false)
 
 	const handleSubmit = async event => {
 		event.preventDefault()
-		//console.log('dropdown trainingsList selected', trainingsList)
-		//console.log('dropdown training selected', selectedTraining)
-		updateDropdownData(selectedTraining)
+		updateDropdownData(selectedTrainingId)
 	}
 
-	const handleSelect = prop => event => {
+	const handleSelect = () => event => {
 		event.preventDefault()
 		setError(false)
-		//setValues({...values, [prop]: event.target.value})
 		setSelectedTraining(event.target.value)
 	}
 
-	const _renderRecords = () => {
+	const _renderForm = () => {
 		return (
 			<form
 				onSubmit={async event => {
@@ -79,7 +81,7 @@ export default ({trainingsList, updateDropdownData, trainingToStart}) => {
 								required
 								labelId="demo-simple-select-outlined-label"
 								id="demo-simple-select-outlined"
-								value={selectedTraining}
+								value={selectedTrainingId}
 								onChange={handleSelect('foodCategory')}
 								label="workout"
 							>
@@ -87,14 +89,31 @@ export default ({trainingsList, updateDropdownData, trainingToStart}) => {
 									<em>None</em>
 								</MenuItem>
 
-								{trainingsList.map(({name}, index) => (
-									<MenuItem value={index}>{name}</MenuItem>
+								{trainingsList.map(({name, id}, index) => (
+									<MenuItem value={id}>{name}</MenuItem>
 								))}
 							</Select>
 						</FormControl>
 						<FormControl error={error}>
 							<FormHelperText>{error}</FormHelperText>
 						</FormControl>
+						<Link
+							style={{textDecoration: 'none'}}
+							to={`${url}/${selectedTrainingId}`}
+						>
+							<Button
+								type="submit"
+								fullWidth
+								variant="contained"
+								disableRipple
+								size="small"
+								color="primary"
+								className={classes.margin}
+							>
+								Choose your workout
+							</Button>
+						</Link>{' '}
+						{/*
 						<Button
 							type="submit"
 							fullWidth
@@ -105,7 +124,7 @@ export default ({trainingsList, updateDropdownData, trainingToStart}) => {
 							className={classes.margin}
 						>
 							Choose your workout
-						</Button>
+						</Button>*/}
 					</Grid>
 				</Grid>
 			</form>
@@ -114,7 +133,7 @@ export default ({trainingsList, updateDropdownData, trainingToStart}) => {
 
 	return (
 		<Container component="main" maxWidth="xs">
-			{_renderRecords()}
+			{_renderForm()}
 		</Container>
 	)
 }

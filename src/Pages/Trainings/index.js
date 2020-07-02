@@ -1,14 +1,18 @@
 import React, {useContext, useState, useEffect, useCallback} from 'react'
-import {Typography, Grid} from '@material-ui/core'
+import {Route, useHistory} from 'react-router-dom'
+import {Typography} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import {UserContext} from '../../Components/Utilities/UserContext'
 import {
 	fetchNewDefaultTrainingsForUserId,
 	addNewTrainingRecord,
+	fetchHistoryTrainingsRecordForUserId,
 } from '../../Components/Trainings'
 import NewTrainingDropdown from './NewTrainingDropdown'
 import AddNewTrainingForm from './AddNewTrainingForm'
 import AddNewTrainingConfirmation from './AddNewTrainingConfirmation'
+import TrainingsRecordHistory from './TrainingsRecordHistory'
+import {NotFound} from '../../Components/Errors'
 
 //repetition in AddNewCalories component make a theme context for everybody
 const useStyles = makeStyles(theme => ({
@@ -18,18 +22,20 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-export default () => {
+export default routeProps => {
 	const classes = useStyles()
+	let history = useHistory()
 	const {user} = useContext(UserContext)
 	const [trainingsList, setTrainingList] = useState()
-	const [currentStep, setCurrentStep] = useState(0)
-	const [trainingToStart, setTrainingToStart] = useState(0)
-	const [trainingRecord, setTrainingRecord] = useState()
+	const [currentStep, setCurrentStep] = useState(1)
+	const [trainingId, setTrainingId] = useState(1)
+	const [newTrainingRecord, setNewTrainingRecord] = useState()
+	const [trainingsRecordUserHistory, setTrainingsRecordUserHistory] = useState()
 
 	if (!user) {
 		console.log('error - user not available')
 	}
-	//console.log('trainingToStart', trainingToStart)
+
 	useEffect(() => {
 		async function fetchData() {
 			const response = await fetchNewDefaultTrainingsForUserId(user.user_id)
@@ -46,27 +52,40 @@ export default () => {
 		fetchData()
 	}, [user.user_id])
 
-	const updateDropdownData = trainingId => {
-		setTrainingToStart(trainingId)
+	useEffect(() => {
+		async function fetchData() {
+			const response = await fetchHistoryTrainingsRecordForUserId(user.user_id)
+
+			console.log('trainings page: response', response)
+
+			if (response.success === 0 || !response.success) {
+				setTrainingsRecordUserHistory(false)
+			} else if (response.success === 1) {
+				setTrainingsRecordUserHistory(response.data)
+				console.log('[php] Response trainings data', response)
+			} else {
+				console.log('[php] Error fetching trainings data', response)
+			}
+		}
+
+		fetchData()
+	}, [newTrainingRecord])
+
+	const confirm = () => {
 		setCurrentStep(1)
+		history.push('/trainings')
+
+		console.log('trainingRecord_' + trainingId)
 	}
 
-	/* const confirm = () => {
-		setCurrentStep(0)
-	} */
-
-	const updateFormData = useCallback(async formData => {
-		//setCurrentStep(2)
-		console.log('trainings - formData', formData)
-
-		setTrainingRecord(formData)
+	const updateFormData = useCallback(async (formData, sessionName) => {
+		setNewTrainingRecord(formData)
 
 		const response = await addNewTrainingRecord(user.user_id, formData)
-
-		console.log('!!!!trainings - response', response)
-
 		if (response.success === 1) {
-			//setFormValues(formData)
+			if (sessionStorage.getItem(sessionName)) {
+				sessionStorage.removeItem(sessionName)
+			}
 			setCurrentStep(2)
 			return {confirmation: response.msg}
 		} else if (response.success === 0) {
@@ -76,63 +95,87 @@ export default () => {
 		} else {
 			console.log('error adding new calories record')
 		}
+
+		setCurrentStep(2)
 	})
 
-	const _renderSwitch = () => {
-		if (!trainingsList || trainingsList === undefined) {
-			return (
-				<Typography gutterBottom align="center">
-					Loading...
-				</Typography>
-			)
-		} else if (trainingsList !== undefined) {
-			switch (currentStep) {
-				case 0:
-					return (
-						<NewTrainingDropdown
-							trainingToStart={trainingToStart}
-							trainingsList={trainingsList}
-							updateDropdownData={updateDropdownData}
-						/>
-					)
-				case 1:
-					return (
-						<AddNewTrainingForm
-							training={trainingsList[trainingToStart]}
-							updateFormData={updateFormData}
-							sessionName={'trainingRecord_' + trainingToStart}
-						/>
-					)
-				case 2:
-					return (
-						<AddNewTrainingConfirmation
-							trainingRecord={trainingRecord}
-							confirm={() => {
-								setCurrentStep(0)
-							}}
-							msg="training has been added "
-						/>
-					)
-				default:
-					return (
-						<NewTrainingDropdown
-							trainingsList={trainingsList}
-							updateDropdownData={updateDropdownData}
-						/>
-					)
-			}
+	const _renderForm = training => {
+		switch (currentStep) {
+			case 1:
+				return (
+					<AddNewTrainingForm
+						training={training}
+						updateFormData={updateFormData}
+						sessionName={'trainingRecord_' + training.id}
+					/>
+				)
+			case 2:
+				return (
+					<AddNewTrainingConfirmation
+						trainingRecord={newTrainingRecord}
+						confirm={confirm}
+						msg="training has been added "
+					/>
+				)
+			default:
+				return (
+					<AddNewTrainingForm
+						training={training}
+						updateFormData={updateFormData}
+						sessionName={'trainingRecord_' + training.id}
+					/>
+				)
 		}
 	}
 
+	const _renderSelectTrainingDropdown = () => {
+		return (
+			<>
+				<NewTrainingDropdown
+					{...routeProps}
+					trainingToStart={trainingId}
+					trainingsList={trainingsList}
+				/>
+				<TrainingsRecordHistory
+					trainingsRecordUserHistory={trainingsRecordUserHistory}
+				/>
+			</>
+		)
+	}
+
 	return (
-		<div className={classes.root}>
-			<Grid container key="container">
-				<Grid item xs={false} sm={1} key="left" />
-				<Grid item xs={12} sm={10} key="content">
-					{_renderSwitch()}
-				</Grid>
-				<Grid item xs={false} sm={1} key="right" />
-			</Grid>
-		</div>
+		<>
+			{trainingsList ? (
+				<>
+					<Route
+						exact
+						path={routeProps.computedMatch.url}
+						render={() => _renderSelectTrainingDropdown()}
+					/>
+					<Route
+						path={`${routeProps.computedMatch.url}/:trainingId`}
+						render={props => {
+							const training = trainingsList.find(
+								training => training.id === props.match.params.trainingId
+							)
+							if (!training) {
+								return (
+									<>
+										{_renderSelectTrainingDropdown()}
+										<NotFound />
+									</>
+								)
+							}
+
+							return _renderForm(training)
+						}}
+					/>
+				</>
+			) : (
+				<Typography gutterBottom align="center">
+					Loading...
+				</Typography>
+			)}
+		</>
 	)
 }
